@@ -1,0 +1,36 @@
+{% extends "en/base.html" %}
+
+{% block content %}
+
+
+<div id="log">Here's your results</div>
+<div id="results">In the case <span id="case"></span>, player 1 put a <span id="casej1"></span>, player 2 a <span id="casej2"></span>.
+<br />
+So, you <span id="winlose"></span> the game. 
+<br /> We now invite you to test our two different strategy, classic optimal and quantum optimal to try it out.</div>
+Your final grid:
+
+<div id="items">
+<div id="idsession" class="invisible">{{ items1.0 }}</div>
+<div id="ligne" class="invisible">{{ items1.1 }}</div>
+<div id="ligneval" class="invisible">{{ items1.2 }}</div>
+<div id="col" class="invisible">{{ items1.3 }}</div>
+<div id="colval" class="invisible">{{ items1.4 }}</div>
+</div>
+
+
+<table>
+	<tbody id="tabw">
+   </tbody>
+</table>
+
+<div id="boutons">
+    <div id="boutonclassique" onclick="opticlass()">If you click here, the grid will be replaced with a classical optimal strategy. (You can switch to your inputs by clicking again.)</div>
+    <div id="boutonquant" onclick="showval()">If you click here, we will propose you an answer which used a quantum optimal strategy</div>
+</div>
+
+<div classe="title" id="val">
+   Player 1 could have put on line {{ items1.1 }} these following numbers: {{ ma }}, player 2 could have used on column {{ items1.3 }} these inputs: {{ mb }}.
+</div>
+
+{% endblock %}

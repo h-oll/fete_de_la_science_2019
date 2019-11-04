@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="title">Here is the state of the game as you juste played. Click on Results to refresh. If the same page is loaded, player 2 still hasn't play. Ask him to hurry :).</div>
+<br />
+
+{% for item in items %}
+
+<div id="items">
+<div id="idsession" class="invisible">{{ item[0] }}</div>
+<div id="ligne" class="invisible">{{ item[1] }}</div>
+<div id="ligneval" class="invisible">{{ item[2] }}</div>
+<div id="col" class="invisible">{{ item[3] }}</div>
+<div id="colval" class="invisible">{{ item[4] }}</div>
+</div>
+
+
+<table>
+	<tbody id="tabw">
+   </tbody>
+</table>
+
+<a href="{{ url_for('resultsen', ids=item[0]) }}">Results</a>
+{% endfor %}
+
+{% endblock %}

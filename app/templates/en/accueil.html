@@ -1,0 +1,28 @@
+{% extends "en/base.html" %}
+
+{% block content %}
+
+{% if message != "" %} 
+        <div id="error">{{message}}</div>
+{% endif %} 
+
+        <div class="title">You will play the Magic Square Game. To Start the game, press one of the buttons.</div>
+
+        <table id="tabhome"><tbody>
+                <tr class="players">
+                        <td>Player 1</td>
+                        <td>Player 2</td>
+                </tr>
+                <tr class="action">
+                        <td>
+                                <a href={{ url_for('p1en') }}><div class="buttonacc">Create session</div></a> 
+                        </td>
+                        <td>
+                                <input name="idsesss" id="idsess" placeholder="Put here the id of the session"></input> 
+                                <a  onclick="changelink()" id="link" href="#"><div class="buttonacc">Join session</div></a>
+                        </td>
+                </tr>
+        </tbody></table>
+       
+<br /><div id="regles"><h2>Gamerules.</h2> <br />Two players plays together, a grid 3*3 is given<br />Player 1 fill a random row with 0 and 1 so that the sum of the inputs is even.<br />Player 2 fill a random column (still with 0 and 1) so that the sum of the inputs is odd. <br />Players can only talk and make a strategy before to start the game <br />Too win, they must fill their common case with the same number. Otherwise, you lose. Let's play! </div>
+{% endblock %}

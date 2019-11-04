@@ -1,0 +1,31 @@
+{% extends "en/base.html" %}
+
+{% block content %}
+
+<div id="log">You are player 2, you're playing on session number:  <span id='numsess'>blabla</span><br />
+	When you fill the column, the sum of the inputsd mus be odd</div>
+
+<form action="{{ url_for('waiting2en') }}" method="POST" id="formp1">
+
+<div id="tablesubmit2"><table>
+				<tbody id="tab2">
+		<tr>
+			<td>1</td><td></td><td></td>
+		</tr>
+		<tr>
+			<td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<td></td><td></td><td></td>
+		</tr>
+	</tbody>
+</table>
+<div id="submitzone2"><div class="subs" id="submit1">even</div><div class="subs" id="submit2">even</div><div class="subs" id="submit3">even</div></div>
+</div>
+
+<div id="inputs" style="display:none"></div>
+
+<input type = "submit" value = "Send your inputs" id="subbuton" />
+</form>
+
+{% endblock %}

@@ -11,6 +11,9 @@ import sqlite3
 
 DB_FILE=os.environ.get("MAGICSQUARE_DB_FILE") or "sessions.db"
 
+
+############################### french version
+
 # Create DB_FILE if needed:
 print("Database file: {}".format(DB_FILE))
 folder=os.path.dirname(DB_FILE)
@@ -112,3 +115,96 @@ def results(ids):
             return waiting(ids)
 
 
+
+
+############################# english version
+
+
+@app.route('/index/en', defaults={'message': ""})
+def indexen(message):
+    return render_template('en/accueil.html',message=message, titre='Home')
+
+
+def waitingen(idsess):
+    conn = sqlite3.connect(DB_FILE)
+    curr=conn.cursor()
+    items=curr.execute("SELECT * FROM session WHERE id=? ", (idsess,))
+    return render_template('waiting.html', items=items.fetchall() )
+
+@app.route('/player1/en')
+def p1en():
+    return render_template('en/p1.html', titre='Player 1')
+
+@app.route('/waiting1/en',methods = ["POST"])
+def waiting1en():
+    conn = sqlite3.connect(DB_FILE)
+    ids = request.form["numsess"]
+    numline = request.form["numline"]
+    x1 = request.form["select1"]
+    x2 = request.form["select2"]
+    x3 = request.form["select3"]
+    x=x1+x2+x3
+    p2c= ""
+    p2x= ""
+    curr=conn.cursor()
+    curr.execute("INSERT INTO session (id,p1line,p1val,p2col,p2val,qres1,qres2) VALUES (?,?,?,?,?,?,?)",[ids,numline,x,p2c,p2x,"",""] )
+    conn.commit()
+    return waitingen(ids)
+
+@app.route('/player2/en')
+def p2en():
+    return render_template('en/p2.html', titre='Player 2')
+
+@app.route('/waiting2/en',methods = ["POST"])
+def waiting2en():
+    conn = sqlite3.connect(DB_FILE)
+    ids = request.form["numsess"]
+    numcol = request.form["numline"]
+    x1 = request.form["select1"]
+    x2 = request.form["select2"]
+    x3 = request.form["select3"]
+    # Classical
+    x=x1+x2+x3
+    curr=conn.cursor()
+    curr.execute("SELECT * FROM session WHERE id=?", (ids,))
+    test= curr.fetchone()
+    if test is None:
+        return indexen(message="No session at this number")
+    else:
+        curr.execute("UPDATE session SET p2col=?, p2val=? WHERE id=? ", (numcol, x, ids))
+        conn.commit()
+        return waitingen(ids)
+
+
+@app.route('/results/en/<ids>/',methods = ["GET"])
+def resultsen(ids):
+    conn = sqlite3.connect(DB_FILE)
+    curr=conn.cursor()
+    items=curr.execute("SELECT * FROM session WHERE id=? ", (ids,))
+    items1=items.fetchone()
+    if items1 is None:
+        return indexen(message="No session at this number")
+    else:
+        test2=items1[3]
+        if test2 != "":
+            numline=int(items1[1])-1
+            numcol=int(items1[3])-1
+            qres1=items1[5]
+            qres2=items1[6]
+            if qres1 == "" or qres2 == "":
+                # Quantum
+                with ExitStack() as global_stack:
+                    magic_square = MagicSquare(global_stack, debug=True)
+                    ma = magic_square.alice_measurement(numline)
+                    str1 = ''.join(str(e) for e in ma)
+                    mb = magic_square.bob_measurement(numcol)
+                    str2 = ''.join(str(e) for e in mb)
+                    conn = sqlite3.connect(DB_FILE)
+                    curr=conn.cursor()
+                    curr.execute("UPDATE session SET qres1=?, qres2=? WHERE id=? ", (str1, str2, ids))
+                    conn.commit()
+                    return render_template('en/resultats.html', items1=items1, ma=ma, mb=mb, titre="Results")
+            else:
+                return render_template('en/resultats.html', items1=items1, ma=qres1, mb=qres2, titre="Results")
+        else: 
+            return waitingen(ids)

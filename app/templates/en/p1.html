@@ -1,0 +1,30 @@
+{% extends "en/base.html" %}
+
+{% block content %}
+
+
+<form action="{{ url_for('waiting1en') }}" method="POST" id="formp1">
+<div id="log" class="title">You are the player 1. You're playing on session number: <span id='numsess'>blabla</span><br />
+When you fill the row, the sum of the imputs must be even<br />The goal is to get the same number than your partner on your crossing case.</div>
+<div id="tablesubmit"><table>
+	<tbody id="tab1">
+		<tr>
+			<td>1</td><td></td><td></td>
+		</tr>
+		<tr>
+			<td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<td></td><td></td><td></td>
+		</tr>
+	</tbody>
+</table>
+<div id="submitzone"><div class="subs" id="submit1">even</div><div class="subs" id="submit2">even</div><div class="subs" id="submit3">even</div></div>
+</div>
+
+<div id="inputs" style="display:none"></div>
+
+<input type = "submit" value = "Send your inputs" id="subbuton"/>
+</form>
+
+{% endblock %}
