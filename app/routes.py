@@ -21,10 +21,10 @@ if folder:
     conn.commit()
     conn.close()
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template('accueil.html', titre='Accueil')
+@app.route('/', defaults={'message': ""})
+@app.route('/index', defaults={'message': ""})
+def index(message):
+    return render_template('accueil.html',message=message, titre='Accueil')
 
 
 def waiting(idsess):
@@ -46,8 +46,8 @@ def waiting1():
     x2 = request.form["select2"]
     x3 = request.form["select3"]
     x=x1+x2+x3
-    p2c= 0
-    p2x= 0
+    p2c= ""
+    p2x= ""
     curr=conn.cursor()
     curr.execute("INSERT INTO session (id,p1line,p1val,p2col,p2val,qres1,qres2) VALUES (?,?,?,?,?,?,?)",[ids,numline,x,p2c,p2x,"",""] )
     conn.commit()
@@ -68,9 +68,14 @@ def waiting2():
     # Classical
     x=x1+x2+x3
     curr=conn.cursor()
-    curr.execute("UPDATE session SET p2col=?, p2val=? WHERE id=? ", (numcol, x, ids))
-    conn.commit()
-    return waiting(ids)
+    curr.execute("SELECT * FROM session WHERE id=?", (ids,))
+    test= curr.fetchone()
+    if test is None:
+        return index(message="Il n'y a pas de session existant au numéro indiqué")
+    else:
+        curr.execute("UPDATE session SET p2col=?, p2val=? WHERE id=? ", (numcol, x, ids))
+        conn.commit()
+        return waiting(ids)
 
 
 @app.route('/results/<ids>/',methods = ["GET"])
@@ -79,20 +84,31 @@ def results(ids):
     curr=conn.cursor()
     items=curr.execute("SELECT * FROM session WHERE id=? ", (ids,))
     items1=items.fetchone()
-    numline=int(items1[1])-1
-    numcol=int(items1[3])-1
-    qres1=items1[5]
-    qres2=items1[6]
-    if qres1 == "" or qres2 == "":
-        # Quantum
-        with ExitStack() as global_stack:
-            magic_square = MagicSquare(global_stack, debug=True)
-            ma = magic_square.alice_measurement(numline)
-            mb = magic_square.bob_measurement(numcol)
-            conn = sqlite3.connect(DB_FILE)
-            curr=conn.cursor()
-            curr.execute("UPDATE session SET qres1=?, qres2=? WHERE id=? ", (qres1, qres2, ids))
-            conn.commit()
-    return render_template('resultats.html', items1=items1, ma=ma, mb=mb, titre="Résultats")
+    if items1 is None:
+        return index(message="Il n'y a pas de résultats à la session indiquée")
+    else:
+        test2=items1[3]
+        if test2 != "":
+            numline=int(items1[1])-1
+            numcol=int(items1[3])-1
+            qres1=items1[5]
+            qres2=items1[6]
+            if qres1 == "" or qres2 == "":
+                # Quantum
+                with ExitStack() as global_stack:
+                    magic_square = MagicSquare(global_stack, debug=True)
+                    ma = magic_square.alice_measurement(numline)
+                    str1 = ''.join(str(e) for e in ma)
+                    mb = magic_square.bob_measurement(numcol)
+                    str2 = ''.join(str(e) for e in mb)
+                    conn = sqlite3.connect(DB_FILE)
+                    curr=conn.cursor()
+                    curr.execute("UPDATE session SET qres1=?, qres2=? WHERE id=? ", (str1, str2, ids))
+                    conn.commit()
+                    return render_template('resultats.html', items1=items1, ma=ma, mb=mb, titre="Résultats")
+            else:
+                return render_template('resultats.html', items1=items1, ma=qres1, mb=qres2, titre="Résultats")
+        else: 
+            return waiting(ids)
 
 

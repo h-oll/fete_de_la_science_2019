@@ -1,8 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <div class="title" id="explications">Vous allez jouer au jeu du magic square, le carré magique. Pour ce faire, nous vous invitons à cliquer sur le bouton correspondant.</div>
-        <a href={{ url_for('p1') }}><div class="buttonacc title">Pour une nouvelle session, cliquez ici</div></a> 
-        <div class="title">Pour rejoindre une session, rentrez son numéro et cliquez sur rejoindre </div>
-        <input name="idsesss" id="idsess"></input> <a  onclick="changelink()" id="link" href="#"><div class="buttonacc"> Rejoindre</div></a>
+
+{% if message != "" %} 
+        <div id="error">{{message}}</div>
+{% endif %} 
+
+        <div class="title">Vous allez jouer au jeu du magic square, le carré magique. Pour commencer a jouer, nous vous invitons à cliquer sur le bouton correspondant.</div>
+
+        <table id="tabhome"><tbody>
+                <tr class="players">
+                        <td>Joueur 1</td>
+                        <td>Joueur 2</td>
+                </tr>
+                <tr class="action">
+                        <td>
+                                <a href={{ url_for('p1') }}><div class="buttonacc">Créer session</div></a> 
+                        </td>
+                        <td>
+                                <input name="idsesss" id="idsess" placeholder="Mettre l'id de session"></input> 
+                                <a  onclick="changelink()" id="link" href="#"><div class="buttonacc">Rejoindre la session</div></a>
+                        </td>
+                </tr>
+        </tbody></table>
+       
+<br /><div id="regles"><h2>Règles du jeu.</h2> <br />Deux joueurs vont devoir jouer ensembles. Un tableau 3x3 vous sera donné. <br />Le joueur 1 devra remplir une ligne aléatoire avec des 0 et des 1 tel que la somme des valeurs doit être paire. <br />Le second, quand le premier aura joué, remplira une colonne aléatoire (avec des 0 et des 1 encore) tel que la somme sera impaire. <br />Les deux joueurs peuvent se concerter pour mettre au point une stratégie uniquement avant de lancer la partie. <br />Attention, pour gagner, il faut que la case que les deux joueurs remplissent en commun soit identique. Sinon, c'est perdu. A vous de jouer! </div>
 {% endblock %}

@@ -2,6 +2,12 @@ html{
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'PT Sans', sans-serif;
+    color:#191919
+}
+
+a{
+    text-decoration: none;
 }
 
 body{
@@ -13,7 +19,7 @@ body{
 
 
 table{
-    border:1px solid black;
+    border:1px solid #191919;
     text-align:center;
 }
 
@@ -24,7 +30,7 @@ table{
 
 td{
     min-width: 50px;
-    border: 0.5px solid black;
+    border: 0.5px solid #191919;
 }
 
 tr{
@@ -37,27 +43,53 @@ tr{
 }
 
 .buttonacc{
-    border: 1px black solid;
+    border: 1px #191919 solid;
     padding:5px;
     margin: 5px;
 }
 
 #boutonclassique{
     border-radius: 5px;
-    background-color: #a1bdff;
+    background-color: #0f2456;
     text-align: center;
     max-width: 200px;
     padding: 10px;
-    margin-top:50px;
+    margin-top: 50px;
+    cursor: pointer;
+    margin-right: 20px;
+    align-items: center;
+    display: flex;
+    color: white;
+    border: 0.5px black solid;
+    font-size: 13px;
+    transition: 0.2s;
 }
+
+#boutonclassique:hover{
+    background-color: #2e4f9e;
+
+}
+
 
 #boutonquant{
     border-radius: 5px;
-    background-color: #fd9797;
+    background-color: #6d0000;
     text-align: center;
     max-width: 200px;
     padding: 10px;
-    margin-top:50px;
+    margin-top: 50px;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    color: white;
+    border: 0.5px black solid;
+    font-size:15px;
+    transition: 0.2s;
+}
+
+#boutonquant:hover{
+    background-color: #962c2c;
+
 }
 
 #items{
@@ -73,10 +105,12 @@ form{
 
 #results{
     max-width: 350px;
+    margin-bottom: 20px;
 }
 
 #subbuton{
-    display: none;
+    visibility: hidden;
+    margin-top:10px
 }
 
 #val{
@@ -93,7 +127,7 @@ form{
 }
 
 a{
-    color:black;
+    color:#191919;
 }
 
 #submitzone{
@@ -102,12 +136,61 @@ a{
     align-items: center;
     justify-content: space-around;
     max-width:100px;
+    margin-left:10px;
 }
+
+
 #tablesubmit{
     display: flex;
     justify-content: center;
     margin-top:30px;
 }
 
+#tablesubmit2{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    flex-direction: column;
+}
+
+#submitzone2{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top:10px;
+}
+
 .subs{
+    visibility: hidden;
+}
+
+#error{
+    background: #fd9797;
+    font: bold;
+}
+
+#tabhome{
+    width: 100%;
+    max-width: 400px;
+    table-layout: fixed;
+}
+.players{
+    height: 3em;
+}
+.action{
+    border: 1px solid #191919;
+}
+
+#idsess{
+    width: 10em;
+    margin-top: 4px;
+}
+
+#regles{
+    max-width: 600px;
+}
+
+#boutons{
+    display: flex;
+    flex-direction: row;
 }

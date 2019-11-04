@@ -2,11 +2,16 @@
     <head>
       <title>{{titre}} - Magic Square</title>
       <meta name="viewport" content="width=device-width, user-scalable=no">
-	  <link rel="stylesheet" href="/static/css/style.css">
-	</head>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+   	</head>
     <body>
 
-        <div class="title">Magic square: a very not fun game</div>
+        <a href="{{ url_for('index')}}"><img src="/static/img/msg.png"></a>
+        <br />
+        <br />
+
+
         
 {% block content %}{% endblock %}
 

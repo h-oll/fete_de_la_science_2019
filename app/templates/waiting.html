@@ -2,7 +2,9 @@
 
 {% block content %}
 
-Voici l'état du jeu tel qu'il est maintenant. Cliquez sur "résultat" pour tout actualiser.
+<div class="title">Voici l'état du jeu tel qu'il est maintenant que vous venez de jouer. Cliquez sur "résultat" pour tout actualiser. Si vous revenez ici, c'est que le deuxième joueur n'a pas encore joué.</div>
+<br />
+
 {% for item in items %}
 
 <div id="items">
@@ -19,7 +21,7 @@ Voici l'état du jeu tel qu'il est maintenant. Cliquez sur "résultat" pour tout
    </tbody>
 </table>
 
-<a href="{{ url_for('results', ids=item[0]) }}">Cliquez ici pour continuer</a>
+<a href="{{ url_for('results', ids=item[0]) }}">Résultat</a>
 {% endfor %}
 
 {% endblock %}

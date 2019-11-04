@@ -13,43 +13,43 @@ function check(){
     if(num==1){
         if(check % 2===1){
             document.getElementById('submit1').innerHTML="impaire";
-            document.getElementById('submit1').style.display="block";
+            document.getElementById('submit1').style.visibility="visible";
         } else{
             document.getElementById('submit1').innerHTML="paire";
-            document.getElementById('submit1').style.display="block";
+            document.getElementById('submit1').style.visibility="visible";
         }
 
     } else if(num==2){
         if(check % 2===1){
             document.getElementById('submit2').innerHTML="impaire";
-            document.getElementById('submit2').style.display="block";
+            document.getElementById('submit2').style.visibility="visible";
         } else{
             document.getElementById('submit2').innerHTML="paire";
-            document.getElementById('submit2').style.display="block";
+            document.getElementById('submit2').style.visibility="visible";
         }
 
     } else if(num==3){
         if(check % 2===1){
             document.getElementById('submit3').innerHTML="impaire";
-            document.getElementById('submit3').style.display="block";
+            document.getElementById('submit3').style.visibility="visible";
         } else{
             document.getElementById('submit3').innerHTML="paire";
-            document.getElementById('submit3').style.display="block";
+            document.getElementById('submit3').style.visibility="visible";
         }
 
     }
     if (tab1){
         if(check % 2===1){
-            document.getElementById('subbuton').style.display="none";
+            document.getElementById('subbuton').style.visibility="hidden";
         } else{
-            document.getElementById('subbuton').style.display="block";
+            document.getElementById('subbuton').style.visibility="visible";
         }
     }
     else if (tab2){
         if(check % 2===0){
-                document.getElementById('subbuton').style.display="none";
+                document.getElementById('subbuton').style.visibility="hidden";
         } else{
-                document.getElementById('subbuton').style.display="block";
+                document.getElementById('subbuton').style.visibility="visible";
         }
     }
 }
