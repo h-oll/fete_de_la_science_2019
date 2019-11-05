@@ -131,7 +131,7 @@ if (items){
     var ligneval = lignevaltxt.split('');
     var colval= colvaltxt.split('');
 
-    var tableau=[[0,0,0],[0,0,0],[0,0,0]];
+    var tableau=[["X","X","X"],["X","X","X"],["X","X","X"]];
     for(i=0;i<3;i++){
         tableau[ligne-1][i]=ligneval[i];
     }
