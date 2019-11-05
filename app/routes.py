@@ -17,12 +17,14 @@ DB_FILE=os.environ.get("MAGICSQUARE_DB_FILE") or "sessions.db"
 # Create DB_FILE if needed:
 print("Database file: {}".format(DB_FILE))
 folder=os.path.dirname(DB_FILE)
+print("The folder is {}".format(folder))
 if folder:
     os.makedirs(folder, exist_ok=True)
-    conn = sqlite3.connect(DB_FILE)
-    conn.execute('CREATE TABLE IF NOT EXISTS session (id VARCHAR(256), p1line VARCHAR(256), p1val VARCHAR(256), p2col VARCHAR(256), p2val VARCHAR(256), qres1 VARCHAR(256), qres2 VARCHAR(256))')
-    conn.commit()
-    conn.close()
+conn = sqlite3.connect(DB_FILE)
+conn.execute('CREATE TABLE IF NOT EXISTS session (id VARCHAR(256), p1line VARCHAR(256), p1val VARCHAR(256), p2col VARCHAR(256), p2val VARCHAR(256), qres1 VARCHAR(256), qres2 VARCHAR(256))')
+print("Table session created.")
+conn.commit()
+conn.close()
 
 @app.route('/', defaults={'message': ""})
 @app.route('/index', defaults={'message': ""})
