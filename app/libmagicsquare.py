@@ -13,8 +13,8 @@ from cqc.pythonLib import CQCConnection, qubit
 # https://softwarequtech.github.io/SimulaQron/html/ConfNodes.html
 from simulaqron.network import Network
 
-def id_generator(size=10, chars=string.ascii_uppercase):
-    return ''.join(random.choice(chars) for _ in range(size))
+def id_generator(max_nb=65):
+    return random.randint(0, max_nb)
 
 def pre_measure(node, q, anc, mes):
     """mes is either I, X, Y, or Z"""
@@ -63,35 +63,43 @@ def get_all_measurements_col(n_col):
 
 class MagicSquare:
     def __init__(self, global_stack, session_id=None, debug=False):
+        """Session_id must be an integer"""
         self.global_stack = global_stack
         self.debug = debug
         if session_id:
-            self.session_id = str(session_id)
+            self.appID = int(session_id)
         else:
-            self.session_id = id_generator()
+            self.appID = id_generator()
         ## Name of parties
         self.alice_name = "Alice"
         self.bob_name = "Bob"
         self.network_name = "default"
+        # self.appID = 42
         ## Create the contexts to connect to CQC
+        print("The appId is {}".format(self.appID))
         self.cqc_alice = self.global_stack.enter_context(
             CQCConnection(self.alice_name,
                           network_name=self.network_name,
+                          appID = self.appID,
+                          conn_retry_time=1)
+        )
+        self.cqc_bob = self.global_stack.enter_context(
+            CQCConnection(self.bob_name,
+                          network_name=self.network_name,
+                          appID = self.appID,
                           conn_retry_time=1)
         )
         # Create two EPR pairs
-        # The EPR pairs are all on Alice's side:
-        self.q1_a = qubit(self.cqc_alice)
-        self.q1_b = qubit(self.cqc_alice)
-        self.q2_a = qubit(self.cqc_alice)
-        self.q2_b = qubit(self.cqc_alice)
-        self.q1_a.H()
-        self.q1_a.cnot(self.q1_b)
-        self.q2_a.H()
-        self.q2_a.cnot(self.q2_b)
+        self.q1_a = self.cqc_alice.createEPR(self.bob_name,
+                                             remote_appID=self.appID)
+        self.q1_b = self.cqc_bob.recvEPR()
+        self.q2_a = self.cqc_alice.createEPR(self.bob_name,
+                                             remote_appID=self.appID)
+        self.q2_b = self.cqc_bob.recvEPR()
 
     def close(self):
         self.cqc_alice.close()
+        self.cqc_bob.close()
 
     def log(self, message):
         if self.debug:
@@ -109,7 +117,7 @@ class MagicSquare:
 
     def bob_measurement(self, n_col):
         all_measurements = get_all_measurements_col(n_col)
-        res = [ measure(self.cqc_alice, self.q1_b, self.q2_b, m)
+        res = [ measure(self.cqc_bob, self.q1_b, self.q2_b, m)
                 for m in all_measurements ]
         return res
 
